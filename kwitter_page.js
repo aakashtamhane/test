@@ -26,12 +26,30 @@ function getData() { firebase.database().ref("/"+room_name).on('value', function
          firebase_message_id = childKey;
          message_data = childData;
 //Start code
-
-//End code
+console.log(firebase_message_id);
+console.log(message_data);
+ name =message_data['name'];
+ message =message_data['fmsg'];
+ like = message_data['like'];
+ nameWithTag="<h4>"+name+"</h4>";
+ msgWithTag="<h4 class'message_h4'>"+message+"</h4>";
+ likeWithBtn="<button class'btn btn-primary' id="+firebase_message_id+" value="+like+" onclick='updatelike(thid.id)'>Likes:"+like+"</button>";
+row=nameWithTag+msgWithTag+likeWithBtn;
+document.getElementById("output").innerHTML+=row;
+function updatelike(message_id){
+button_id=message_id;
+console.log(message_id);
+likes=document.getElementById(button_id).value;
+updatelikes=Number(like)+1;
+firebase.database().ref(room_name).child(message_id).update({
+      like:updatelikes
+});
+}
+ //End code
       } });  }); }
 getData();
 function logout() {
       localStorage.removeItem("user_name");
       localStorage.removeItem("Room_name");
           window.location = "index.html";
-      }
+      } 
